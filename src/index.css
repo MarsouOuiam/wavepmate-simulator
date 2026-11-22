@@ -1,0 +1,53 @@
+
+:root {
+  font-family: 'Inter', sans-serif;
+  color: #e9edff;
+  background: #080d1b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: #080d1b;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  color: #e9edff;
+  background: #080d1b;
+}
+
+h1, h2, h3, p, label {
+  color: inherit;
+}
+
+button, input, select {
+  font: inherit;
+}
+.stokes-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.stokes-values div {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #aaa2c5;
+  font-size: 13px;
+}
+
+.stokes-values strong {
+  color: white;
+}
