@@ -1,18 +1,19 @@
 
 import { useMemo, useState } from 'react'
 import './App.css'
+
 import {
   calculateWavelength,
   calculatePhaseDifference,
   calculateQuarterWaveThickness,
   getPolarization,
-  calculateStokesParameters
+  calculateStokesParameters,
+  getMaterialIndices
 } from './physics'
 
 const materials = {
-  Quartz: { no: 1.544, ne: 1.553 },
-  Calcite: { no: 1.658, ne: 1.486 },
-  Mica: { no: 1.600, ne: 1.594 }
+  Quartz: 'Alpha-quartz (Ghosh / Sellmeier data)',
+  Calcite: 'Calcite (Ghosh 1999)'
 }
 
 function App() {
@@ -23,12 +24,30 @@ function App() {
   const [playing, setPlaying] = useState(true)
   const [history, setHistory] = useState([])
 
-  const { no, ne } = materials[material]
   const wavelength = calculateWavelength(frequency)
-  const phase = calculatePhaseDifference(thickness, wavelength, no, ne)
-  const quarterThickness = calculateQuarterWaveThickness(wavelength, no, ne)
+
+  const { no, ne } = getMaterialIndices(
+    material,
+    wavelength
+  )
+
+  const phase = calculatePhaseDifference(
+    thickness,
+    wavelength,
+    no,
+    ne
+  )
+
+  const quarterThickness = calculateQuarterWaveThickness(
+    wavelength,
+    no,
+    ne
+  )
+
   const polarization = getPolarization(angle, phase)
+
   const stokes = calculateStokesParameters(angle, phase)
+
 
   const psi = 0.5 * Math.atan2(stokes.S2, stokes.S1) * 180 / Math.PI
 
@@ -582,6 +601,43 @@ const saveExperiment = () => {
             <small>For a quarter-wave plate: δ = π / 2</small>
           </div>
         </section>
+
+<section className="sources">
+  <h2>Scientific References</h2>
+
+  <div className="source-item">
+    <h3>1. Quartz and Calcite</h3>
+    <p>
+      Ghosh, G. (1999). Dispersion-equation coefficients
+      for the refractive index and birefringence of
+      calcite and quartz crystals.
+      Optics Communications, 163, 95–102.
+    </p>
+    <a
+      href="https://doi.org/10.1016/S0030-4018(99)00091-7"
+      target="_blank"
+      rel="noreferrer"
+    >
+      View scientific article
+    </a>
+  </div>
+
+  <div className="source-item">
+    <h3>2. Quartz Sellmeier Coefficients</h3>
+    <p>
+      Wiley – Refractive Index and Dispersion,
+      Table 1.2: Sellmeier coefficients.
+    </p>
+    <a
+      href="https://catalogimages.wiley.com/images/db/pdf/9781119506317.excerpt.pdf"
+      target="_blank"
+      rel="noreferrer"
+    >
+      View reference PDF
+    </a>
+  </div>
+</section>
+
       </main>
 
       <footer>
